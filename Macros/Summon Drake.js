@@ -18,32 +18,23 @@ new Dialog({
                 label: `<i class="fas fa-dragon"></i>Summon Drake!`,
                 callback: async (html) => {                    
                     let draketype = html.find("[name=drake]")[0].value;
+					let damagetype = draketype.toLowerCase();
 					let creature = game.actors.getName(drakeactorname);
 					const effect_name = draketype + " Type";
-
-let items = creature.getEmbeddedCollection("Item").contents;
-let strikeid = items[1].id;
-let damagetype = draketype.toLowerCase();
-/*
-let strike = creature.getEmbeddedDocument("Item",strikeid);
-strike.data.data.damage.parts[0][1]="fire"
-let result = await creature.updateEmbeddedDocuments("Item", [strike.data]);
-*/
-
-let result = await creature.updateEmbeddedDocuments("Item",[{
-	"_id": strikeid , 
-
-		"data": {
-			"damage": {
-		          "parts": [
-		            [
-		              `1d6`,
-		              damagetype
-            		    ]
-	                  ]}
-	          }
-}]);
-
+					let strike = creature.items.find(item => item.data.name == "Infused Strike");
+					if (strike == null || strike == undefined)
+					{
+						ui.notification.error("Infused Strike Feature not found");
+						return;
+					}
+					await strike.update({
+						"data.damage.parts": [
+							[
+							`1d6`,
+							damagetype
+							]
+						]}															
+					);
 
 					const effect = creature.data.effects.contents;
 
