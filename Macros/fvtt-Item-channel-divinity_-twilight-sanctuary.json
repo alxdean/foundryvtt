@@ -1,0 +1,210 @@
+{
+  "name": "Channel Divinity: Twilight Sanctuary",
+  "type": "feat",
+  "img": "systems/dnd5e/icons/skills/violet_26.jpg",
+  "data": {
+    "description": {
+      "value": "<div class=\"rd__b  rd__b--1\"><p><i>2nd-level Twilight Domain feature</i></p><p>You can use your Channel Divinity to refresh your allies with soothing twilight.</p><p>As an action, you present your holy symbol, and a sphere of twilight emanates from you. The sphere is centered on you, has a 30-foot radius, and is filled with dim light. The sphere moves with you, and it lasts for 1 minute or until you are @condition[incapacitated] or die. Whenever a creature (including you) ends its turn in the sphere, you can grant that creature one of these benefits:</p><ul class=\"rd__list\"><li class=\"rd__li \">You grant it temporary hit points equal to [[/r 1d6]] plus your cleric level.</li><li class=\"rd__li \">You end one effect on it causing it to be @condition[charmed] or @condition[frightened].</li></ul></div>",
+      "chat": "",
+      "unidentified": ""
+    },
+    "source": "TCE",
+    "activation": {
+      "type": "action",
+      "cost": 1,
+      "condition": ""
+    },
+    "duration": {
+      "value": 1,
+      "units": "minute"
+    },
+    "target": {
+      "value": null,
+      "width": null,
+      "units": "",
+      "type": ""
+    },
+    "range": {
+      "value": null,
+      "long": null,
+      "units": ""
+    },
+    "uses": {
+      "value": 0,
+      "max": "0",
+      "per": ""
+    },
+    "consume": {
+      "type": "attribute",
+      "target": "",
+      "amount": 1
+    },
+    "ability": "",
+    "actionType": "util",
+    "attackBonus": 0,
+    "chatFlavor": "",
+    "critical": null,
+    "damage": {
+      "parts": [],
+      "versatile": ""
+    },
+    "formula": "",
+    "save": {
+      "ability": "",
+      "dc": null,
+      "scaling": "flat"
+    },
+    "requirements": "Cleric 2 (Twilight)",
+    "recharge": {
+      "value": null,
+      "charged": false
+    }
+  },
+  "effects": [
+    {
+      "_id": "UJQsFwhP9p8Avb4F",
+      "changes": [
+        {
+          "key": "macro.itemMacro",
+          "mode": 0,
+          "value": "@abilities.wis.mod @target",
+          "priority": "20"
+        }
+      ],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": 60
+      },
+      "icon": "systems/dnd5e/icons/skills/violet_26.jpg",
+      "label": "Channel Divinity: Twilight Sanctuary",
+      "transfer": false,
+      "flags": {
+        "dae": {
+          "stackable": "none",
+          "macroRepeat": "endEveryTurn",
+          "specialDuration": [],
+          "transfer": false
+        },
+        "ActiveAuras": {
+          "isAura": true,
+          "aura": "Allies",
+          "radius": 30,
+          "alignment": "",
+          "type": "",
+          "ignoreSelf": false,
+          "height": false,
+          "hidden": false,
+          "hostile": false,
+          "onlyOnce": false
+        }
+      },
+      "tint": "",
+      "selectedKey": "macro.itemMacro"
+    }
+  ],
+  "sort": 0,
+  "flags": {
+    "srd5e": {
+      "page": "classfeatures.html",
+      "source": "TCE",
+      "hash": "channel%20divinity%3a%20twilight%20sanctuary_cleric_phb_twilight_tce_2_tce",
+      "propDroppable": "subclassFeature"
+    },
+    "betterRolls5e": {
+      "critRange": {
+        "type": "String",
+        "value": null
+      },
+      "critDamage": {
+        "type": "String",
+        "value": ""
+      },
+      "quickDesc": {
+        "type": "Boolean",
+        "value": true,
+        "altValue": true
+      },
+      "quickAttack": {
+        "type": "Boolean",
+        "value": true,
+        "altValue": true
+      },
+      "quickSave": {
+        "type": "Boolean",
+        "value": true,
+        "altValue": true
+      },
+      "quickDamage": {
+        "type": "Array",
+        "value": [],
+        "altValue": [],
+        "context": []
+      },
+      "quickProperties": {
+        "type": "Boolean",
+        "value": true,
+        "altValue": true
+      },
+      "quickCharges": {
+        "type": "Boolean",
+        "value": {
+          "use": true,
+          "resource": true,
+          "charge": true
+        },
+        "altValue": {
+          "use": true,
+          "resource": true,
+          "charge": true
+        }
+      },
+      "quickTemplate": {
+        "type": "Boolean",
+        "value": true,
+        "altValue": true
+      },
+      "quickOther": {
+        "type": "Boolean",
+        "value": true,
+        "altValue": true,
+        "context": ""
+      },
+      "quickFlavor": {
+        "type": "Boolean",
+        "value": true,
+        "altValue": true
+      },
+      "quickPrompt": {
+        "type": "Boolean",
+        "value": false,
+        "altValue": false
+      }
+    },
+    "core": {
+      "sourceId": "Compendium.world.ddb-frosty-tales-class-features.kOW5CpACie6d5Hfp"
+    },
+    "midi-qol": {
+      "onUseMacroName": "AA ApplyEffectsToTemplate"
+    },
+    "itemacro": {
+      "macro": {
+        "data": {
+          "_id": null,
+          "name": "Channel Divinity: Twilight Sanctuary",
+          "type": "script",
+          "author": "wBFGbPPyc1l6Cm3j",
+          "img": "icons/svg/dice-target.svg",
+          "scope": "global",
+          "command": "let wisMod = args[1]\n\t\tlet target = args[3].actor;\n\t\tif (target == undefined) //not actively targeting a user\n\t\treturn;\n\n\t\tlet roll = new Roll('1d8').roll();\n\t\tlet newTempHP = wisMod + roll.total ;\n\t\n\t\tif (target.data.data.attributes.hp.temp < newTempHP)\n\t\t{\n\t\tChatMessage.create({content: \"new Temp HP for \" + target.data.name + \" is \" + newTempHP });\n\t\ttarget.update({\n\t\t\t'data.attributes.hp.temp' : newTempHP\n\t\t});\n\t\t}\n\t\telse\n\t\t{\n\t\tChatMessage.create({content: \"Existing Temp HP was higher. no Temp HP awarded\"});\n\t\t}",
+          "folder": null,
+          "sort": 0,
+          "permission": {
+            "default": 0
+          },
+          "flags": {}
+        }
+      }
+    }
+  }
+}
