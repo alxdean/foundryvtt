@@ -30,4 +30,6 @@ Next you want to add the Macro that adds 10 new goodberries to your inventory to
 3. paste the macro script from <a href="..\GooberrySpellMacro.js">GooberrySpellMacro.js </a>
 4. Save
 
+5. Optionally, add the spell to the actor if you modified a version from the journal.
+
 you're good to go!!!
