@@ -99,7 +99,7 @@
           "onlyOnce": false
         }
       },
-      "tint": "",
+      "tint": null,
       "selectedKey": "macro.itemMacro"
     }
   ],
@@ -196,7 +196,7 @@
           "author": "wBFGbPPyc1l6Cm3j",
           "img": "icons/svg/dice-target.svg",
           "scope": "global",
-          "command": "let wisMod = args[1]\n\t\tlet target = args[3].actor;\n\t\tif (target == undefined) //not actively targeting a user\n\t\treturn;\n\n\t\tlet roll = new Roll('1d8').roll();\n\t\tlet newTempHP = wisMod + roll.total ;\n\t\n\t\tif (target.data.data.attributes.hp.temp < newTempHP)\n\t\t{\n\t\tChatMessage.create({content: \"new Temp HP for \" + target.data.name + \" is \" + newTempHP });\n\t\ttarget.update({\n\t\t\t'data.attributes.hp.temp' : newTempHP\n\t\t});\n\t\t}\n\t\telse\n\t\t{\n\t\tChatMessage.create({content: \"Existing Temp HP was higher. no Temp HP awarded\"});\n\t\t}",
+          "command": "// only works with midi qol and speed roll ability checks\nif (!game.modules.get(\"advanced-macros\")?.active) {ui.notifications.error(\"Please enable the Advanced Macros module\") ;return;}\nlet wisMod = args[1]\nconst lastArg = args[args.length - 1];\nlet tactor;\nif (lastArg.tokenId) tactor = canvas.tokens.get(lastArg.tokenId).actor;\nelse tactor = game.actors.get(lastArg.actorId);\n\n    \nif (tactor == undefined) //not actively targeting a user\nreturn;\n\n\nif (args[0] === \"each\") {\n\n\n    let flag = DAE.getFlag(tactor, 'sanctuarymode')\n\n    if (flag != undefined && flag === \"condition\") //remove either frightened or charmed condition\n    {\n        ChatMessage.create({content: tactor.data.name + \" is no longer charmed or frightened\" });        \n\n        DAE.unsetFlag(tactor, 'sanctuarymode');\n    }\n    else // Add Temp HP\n    {\n        let roll = new Roll('1d6').roll();\n        let newTempHP = wisMod + roll.total ;\n\n        if (tactor.data.data.attributes.hp.temp < newTempHP)\n        {\n        ChatMessage.create({content: \"new Temp HP for \" + tactor.data.name + \" is \" + newTempHP });\n        tactor.update({\n            'data.attributes.hp.temp' : newTempHP\n        });\n        }\n        else\n        {\n        ChatMessage.create({content: \"Existing Temp HP was higher for \" + tactor.data.name + \". no Temp HP awarded\"});\n        }\n    }\n}\n\nif (args[0] === \"off\") {\n    DAE.unsetFlag(tactor, 'sanctuarymode');\n    ChatMessage.create({ content: \"Twilight Sanctuary has expired\" });\n}",
           "folder": null,
           "sort": 0,
           "permission": {
@@ -205,6 +205,12 @@
           "flags": {}
         }
       }
+    },
+    "exportSource": {
+      "world": "frosty-tales",
+      "system": "dnd5e",
+      "coreVersion": "0.8.8",
+      "systemVersion": "1.4.2"
     }
   }
 }
