@@ -67,7 +67,7 @@
         {
           "key": "macro.itemMacro",
           "mode": 0,
-          "value": "@abilities.wis.mod @target",
+          "value": "@classes.cleric.levels @target",
           "priority": "20"
         }
       ],
@@ -99,7 +99,7 @@
           "onlyOnce": false
         }
       },
-      "tint": null,
+      "tint": "",
       "selectedKey": "macro.itemMacro"
     }
   ],
