@@ -1,0 +1,36 @@
+{
+  "name": "Toggle Sanctuary Mode",
+  "type": "feat",
+  "img": "systems/dnd5e/icons/spells/heal-royal-3.jpg",
+  "data": {
+    "activation": {
+      "type": "special",
+      "cost": 1,
+      "condition": ""
+    }
+  },
+  "flags": {
+    "itemacro": {
+      "macro": {
+        "data": {
+          "_id": null,
+          "name": "Toggle SanctuaryMode",
+          "type": "script",
+          "author": "wBFGbPPyc1l6Cm3j",
+          "img": "icons/svg/dice-target.svg",
+          "scope": "global",
+          "command": "if(game.user.targets.size > 1) return ui.notifications.error(`Please target exactly 1 token.`);  \n    let tactor;\n    tactor = game.actors.get(game.user.targets.values().next().value.data.actorId);    \n    let flag = DAE.getFlag(tactor, 'sanctuarymode')\n    if (flag!= undefined)\n    {\n        DAE.unsetFlag(tactor, 'sanctuarymode');\n        ChatMessage.create({content: tactor.data.name + \" will receive Temp HP at the end of their turn\" });\n    }\n    else\n    {\n        ChatMessage.create({content: tactor.data.name + \" will stop being charmed or frightened at the end of their turn\" });\n        DAE.setFlag(tactor, 'sanctuarymode','condition')\n    }",
+          "folder": null,
+          "sort": 0,
+          "permission": {
+            "default": 0
+          },
+          "flags": {}
+        }
+      }
+    },
+    "midi-qol": {
+      "onUseMacroName": "ItemMacro"
+    }
+  }
+}
