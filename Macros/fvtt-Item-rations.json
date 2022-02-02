@@ -1,20 +1,20 @@
 {
-  "name": "Goodberry",
+  "name": "Rations",
   "type": "consumable",
-  "img": "icons/commodities/flowers/buds-black-red.webp",
+  "img": "icons/consumables/meat/hock-leg-pink-brown.webp",
   "data": {
     "description": {
-      "value": "",
+      "value": "<p>Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.</p>",
       "chat": "",
       "unidentified": ""
     },
-    "source": "",
-    "quantity": 10,
-    "weight": 0,
-    "price": 0,
+    "source": "PHB pg. 153",
+    "quantity": 1,
+    "weight": 2,
+    "price": 0.5,
     "attunement": 0,
-    "equipped": true,
-    "rarity": "",
+    "equipped": false,
+    "rarity": "common",
     "identified": true,
     "activation": {
       "type": "action",
@@ -22,11 +22,11 @@
       "condition": ""
     },
     "duration": {
-      "value": null,
+      "value": 0,
       "units": ""
     },
     "target": {
-      "value": null,
+      "value": 1,
       "width": null,
       "units": "",
       "type": "creature"
@@ -40,7 +40,8 @@
       "value": 1,
       "max": "1",
       "per": "charges",
-      "autoDestroy": true
+      "autoDestroy": true,
+      "autoUse": true
     },
     "consume": {
       "type": "",
@@ -51,7 +52,10 @@
     "actionType": "util",
     "attackBonus": 0,
     "chatFlavor": "",
-    "critical": null,
+    "critical": {
+      "threshold": null,
+      "damage": ""
+    },
     "damage": {
       "parts": [],
       "versatile": ""
@@ -65,7 +69,6 @@
     "consumableType": "food"
   },
   "effects": [],
-  "sort": 0,
   "flags": {
     "midi-qol": {
       "effectActivation": false,
@@ -90,11 +93,14 @@
         }
       }
     },
+    "core": {
+      "sourceId": "Item.H2dlc9VJ3pO8G0qd"
+    },
     "exportSource": {
-      "world": "frosty-tales",
+      "world": "5etest",
       "system": "dnd5e",
-      "coreVersion": "0.8.8",
-      "systemVersion": "1.4.2"
+      "coreVersion": "9.238",
+      "systemVersion": "1.5.6"
     }
   }
 }

@@ -1,4 +1,5 @@
 // only works with midi qol and speed roll ability checks
+//debugger
 if (!game.modules.get("advanced-macros")?.active) {ui.notifications.error("Please enable the Advanced Macros module") ;return;}
 let classMod = args[1]
 const lastArg = args[args.length - 1];
@@ -15,14 +16,14 @@ if (args[0] === "on") {
     if (args[2] === lastArg.tokenId) //only if the caster is currently active
     {
         token = canvas.tokens.get(lastArg.tokenId);
-        token.setFlag('token-auras', 'aura1.distance', 30);
-        token.setFlag('token-auras', 'aura1.colour', '#e1dd56');
-        token.setFlag('token-auras', 'aura1.opacity', 0.2);        
+        token.document.setFlag('token-auras', 'aura1.distance', 30);
+        token.document.setFlag('token-auras', 'aura1.colour', '#e1dd56');
+        token.document.setFlag('token-auras', 'aura1.opacity', 0.2);        
 
         let toggleItem = tactor.items.find(i => i.data.flags?.DnDean?.SanctuaryToggle === tactor.id)
         if (toggleItem === undefined) 
         {
-            await tactor.createOwnedItem({
+            await tactor.createEmbeddedDocuments("Item", [{
                 "name": "Toggle Sanctuary Mode",
                 "type": "feat",
                 "img": "systems/dnd5e/icons/spells/heal-royal-3.jpg",
@@ -60,7 +61,7 @@ if (args[0] === "on") {
                         tactor.id
                   }              
                 }
-              })  
+              }])  
         }
       
     }
@@ -81,7 +82,7 @@ if (args[0] === "each") {
     }
     else // Add Temp HP
     {
-        let roll = new Roll('1d6').roll();
+        let roll = await new Roll('1d6').evaluate({async : true});
         let newTempHP = classMod + roll.total ;
 
         if (tactor.data.data.attributes.hp.temp < newTempHP)
@@ -102,10 +103,10 @@ if (args[0] === "off") {
     if (args[2] === lastArg.tokenId) //only if the caster is currently active
     {
         let removeItem = tactor.items.find(i => i.data.flags?.DnDean?.SanctuaryToggle === tactor.id)
-        if(removeItem) await tactor.deleteOwnedItem(removeItem.id);
+        if(removeItem) await tactor.deleteEmbeddedDocuments("Item", [removeItem.id]);
       
         token = canvas.tokens.get(lastArg.tokenId);
-        token.setFlag('token-auras', 'aura1.distance', 0);
+        token.document.setFlag('token-auras', 'aura1.distance', 0);
     }
     
 }
