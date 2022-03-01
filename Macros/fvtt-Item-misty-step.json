@@ -1,0 +1,191 @@
+{
+  "name": "Misty Step",
+  "type": "spell",
+  "img": "systems/dnd5e/icons/spells/wind-grasp-air-1.jpg",
+  "data": {
+    "description": {
+      "value": "<p>Briefly surrounded by silvery mist, you teleport up to 30 feet to an unoccupied space that you can see.</p>",
+      "chat": "",
+      "unidentified": ""
+    },
+    "source": "PHB pg. 260",
+    "activation": {
+      "type": "bonus",
+      "cost": 1,
+      "condition": ""
+    },
+    "duration": {
+      "value": null,
+      "units": "inst"
+    },
+    "target": {
+      "value": null,
+      "width": null,
+      "units": "",
+      "type": "self"
+    },
+    "range": {
+      "value": null,
+      "long": null,
+      "units": "self"
+    },
+    "uses": {
+      "value": 1,
+      "max": "1",
+      "per": "lr"
+    },
+    "consume": {
+      "type": "",
+      "target": "",
+      "amount": null
+    },
+    "ability": "",
+    "actionType": "util",
+    "attackBonus": 0,
+    "chatFlavor": "",
+    "critical": {
+      "threshold": null,
+      "damage": null
+    },
+    "damage": {
+      "parts": [],
+      "versatile": "",
+      "value": ""
+    },
+    "formula": "",
+    "save": {
+      "ability": "",
+      "dc": null,
+      "scaling": "spell",
+      "value": ""
+    },
+    "level": 2,
+    "school": "con",
+    "components": {
+      "value": "",
+      "vocal": true,
+      "somatic": false,
+      "material": false,
+      "ritual": false,
+      "concentration": false
+    },
+    "materials": {
+      "value": "",
+      "consumed": false,
+      "cost": 0,
+      "supply": 0
+    },
+    "preparation": {
+      "mode": "atwill",
+      "prepared": false
+    },
+    "scaling": {
+      "mode": "none",
+      "formula": ""
+    },
+    "attunement": null
+  },
+  "effects": [
+    {
+      "_id": "co3tPOrzgA6gTwI9",
+      "flags": {
+        "dae": {
+          "stackable": false,
+          "specialDuration": "None",
+          "macroRepeat": "none",
+          "transfer": false
+        }
+      },
+      "changes": [
+        {
+          "key": "macro.itemMacro",
+          "value": "@target",
+          "mode": 0,
+          "priority": 20
+        }
+      ],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "turns": 1
+      },
+      "icon": "systems/dnd5e/icons/spells/wind-grasp-air-1.jpg",
+      "label": "Misty Step",
+      "tint": null,
+      "transfer": false
+    }
+  ],
+  "flags": {
+    "itemacro": {
+      "macro": {
+        "data": {
+          "_id": null,
+          "name": "Misty Step",
+          "type": "script",
+          "author": "wBFGbPPyc1l6Cm3j",
+          "img": "icons/svg/dice-target.svg",
+          "scope": "global",
+          "command": "//DAE Macro Execute, Effect Value = \"Macro Name\" @target \nif (!game.modules.get(\"advanced-macros\")?.active) ui.notifications.error(\"Please enable the Advanced Macros module\")\n\nconst lastArg = args[args.length - 1];\nlet tactor;\nif (lastArg.tokenId) tactor = canvas.tokens.get(lastArg.tokenId).actor;\nelse tactor = game.actors.get(lastArg.actorId);\nconst target = canvas.tokens.get(lastArg.tokenId) || token;\n\n\nif (args[0] === \"on\") {\n    let range = canvas.scene.createEmbeddedDocuments(\"MeasuredTemplate\", [{\n        t: \"circle\",\n        user: game.user._id,\n        x: target.x + canvas.grid.size / 2,\n        y: target.y + canvas.grid.size / 2,\n        direction: 0,\n        distance: 30,\n        borderColor: \"#FF0000\",\n        flags: {\n            DAESRD: {\n                MistyStep: {\n                    ActorId: tactor.id\n                }\n            }\n        }\n        //fillColor: \"#FF3366\",\n    }]);\n\n    range.then(result => {\n        let templateData = {\n            t: \"rect\",\n            user: game.user._id,\n            distance: 7.5,\n            direction: 45,\n            x: 0,\n            y: 0,\n            fillColor: game.user.color,\n            flags: {\n                DAESRD: {\n                    MistyStep: {\n                        ActorId: tactor.id\n                    }\n                }\n            }\n        };\n\n\n\n        Hooks.once(\"createMeasuredTemplate\", deleteTemplatesAndMove);\n        let doc = new CONFIG.MeasuredTemplate.documentClass(templateData, { parent: canvas.scene })\n        let template = new game.dnd5e.canvas.AbilityTemplate(doc);\n        template.actorSheet = tactor.sheet;\n        template.drawPreview();\n\n        async function deleteTemplatesAndMove(template) {\n            //debugger\n            let removeTemplates = canvas.templates.placeables.filter(i => i.data.flags.DAESRD?.MistyStep?.ActorId === tactor.id);\n            let templateArray = removeTemplates.map(function (w) {\n                return w.id\n            })            \n            await target.document.update({ x: template.data.x, y: template.data.y } , {animate : false})\n            if (removeTemplates) await canvas.scene.deleteEmbeddedDocuments(\"MeasuredTemplate\", templateArray)\n            await tactor.deleteEmbeddedDocuments(\"ActiveEffect\", [lastArg.effectId]); \n        };\n    });\n    \n}",
+          "folder": null,
+          "sort": 0,
+          "permission": {
+            "default": 0
+          },
+          "flags": {}
+        }
+      }
+    },
+    "dae": {
+      "activeEquipped": false,
+      "alwaysActive": false
+    },
+    "midi-qol": {
+      "onUseMacroName": "",
+      "effectActivation": false
+    },
+    "core": {
+      "sourceId": "Compendium.Dynamic-Effects-SRD.DAE SRD Spells.OJlgbnpItuXPbu0a"
+    },
+    "scene-packer": {
+      "hash": "ef32ac3e56fcb1ac46ffb26c1fff3f1dcac7096a",
+      "sourceId": "Item.QQgkE7PS4soGzb7c"
+    },
+    "betterRolls5e": {
+      "quickOther": {
+        "context": "",
+        "value": true,
+        "altValue": true
+      },
+      "quickDesc": {
+        "value": true,
+        "altValue": true
+      },
+      "quickProperties": {
+        "value": true,
+        "altValue": true
+      },
+      "quickVersatile": {
+        "value": false,
+        "altValue": false
+      },
+      "quickFlavor": {
+        "value": true,
+        "altValue": true
+      },
+      "quickCharges": {
+        "value": {
+          "use": true
+        },
+        "altValue": {
+          "use": true
+        }
+      }
+    },
+    "exportSource": {
+      "world": "frosty-tales",
+      "system": "dnd5e",
+      "coreVersion": "9.245",
+      "systemVersion": "1.5.6"
+    }
+  }
+}
