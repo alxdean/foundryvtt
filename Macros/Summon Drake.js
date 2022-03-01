@@ -46,9 +46,9 @@ function selectShape(drakeactorname){
 						if (condition.includes("Type"))
 						{
 							if  (condition != effect_name)
-								await creature.updateEmbeddedEntity("ActiveEffect", {"_id": effect_id, "disabled" : true});			
+								await creature.updateEmbeddedDocuments("ActiveEffect", [{"_id": effect_id, "disabled" : true}]);			
 							else 
-								await creature.updateEmbeddedEntity("ActiveEffect", {"_id": effect_id, "disabled" : false});			
+								await creature.updateEmbeddedDocuments("ActiveEffect", [{"_id": effect_id, "disabled" : false}]);			
 						}				
 					}					
 					drake = await spawnActor(canvas.scene,canvas.templates.placeables.map(x=>x).reverse().find(t => t.data.user == game.user.id)?.data || canvas.tokens.get(token.data._id),draketype);
