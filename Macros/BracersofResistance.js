@@ -10,9 +10,9 @@ if (item.data.data.uses.value == 0)
     else if (roll.total>=19)
     {
         let charges = new Roll('1d6').roll();
-        let total = charges + 2
+        let total = charges.total + 2
         item.update({'data.uses.value': total, 'data.uses.max': total})
-        ChatMessage.create({content: "[[" + roll.total + "]] : The bracers regain [[" + roll.total + " + 2]] charges"  });
+        ChatMessage.create({content: "[[" + roll.total + "]] : The bracers regain [[" + charges.total + " + 2]] charges"  });
 
     }
     else
